@@ -8,11 +8,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
 .pytest_cache/
 .coverage
 coverage.xml
@@ -45,15 +40,6 @@ coverage.xml
 .hypothesis/
 *.orig
 
-# Environments
-.env
-.venv
-ENV/
-env/
-venv/
-env.bak/
-venv.bak/
-
 # Pyre type checker
 .pyre/
 
@@ -73,17 +59,6 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
-
-# dotenv
-.env
-
-# virtualenv
-.venv/
-ENV/
-env/
-venv/
-env.bak/
-venv.bak/
 
 # Spyder project settings
 .spyderproject
