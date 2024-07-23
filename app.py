@@ -86,20 +86,20 @@ def scrape_main_page(url):
                 seen_headers.add(article_data['header_text'])
                 seen_images.add(article_data['img_url'])
                 articles_data.append(article_data)
-                # break  
+                break  
 
-    local_news_section = soup.find('div', {'class': 'local_news'})
-    if local_news_section:
-        local_news_links = local_news_section.find_all('a', href=True, limit=4)
-        for link in local_news_links:
-            article_url = link['href']
-            full_article_url = BASE_URL + article_url
-            article_data = scrape_article(full_article_url)
+    # local_news_section = soup.find('div', {'class': 'local_news'})
+    # if local_news_section:
+    #     local_news_links = local_news_section.find_all('a', href=True, limit=4)
+    #     for link in local_news_links:
+    #         article_url = link['href']
+    #         full_article_url = BASE_URL + article_url
+    #         article_data = scrape_article(full_article_url)
 
-            if article_data['header_text'] not in seen_headers and article_data['img_url'] not in seen_images:
-                seen_headers.add(article_data['header_text'])
-                seen_images.add(article_data['img_url'])
-                articles_data.append(article_data)
+    #         if article_data['header_text'] not in seen_headers and article_data['img_url'] not in seen_images:
+    #             seen_headers.add(article_data['header_text'])
+    #             seen_images.add(article_data['img_url'])
+    #             articles_data.append(article_data)
 
     return articles_data
 

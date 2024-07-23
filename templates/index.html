@@ -1,96 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>News Scraper</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+  </head>
+  <body>
     <div class="container">
-        <h1>News Scraper</h1>
-        <form action="/scrape/" method="post">
-            <label for="date">Enter Date:</label>
-            <input type="date" id="date" name="date" required>
-            <button type="submit">Scrape</button>
-        </form>
-        <div class="articles">
-            {% for article in articles %}
-            <div class="card">
-                <img src="{{ article.img_url }}" alt="Image not available">
-                <h2>{{ article.header_text }}</h2>
-                <p>{{ article.details_text }}</p>
-                <div class="button-group">
-                    <button onclick="copyText('{{ article.header_text | escapejs }}')">Copy Header</button>
-                    <button onclick="copyText('{{ article.details_text | escapejs }}')">Copy Description</button>
-                    <button onclick="copyText('{{ article.img_url | escapejs }}')">Copy Image URL</button>
-                    <button onclick="downloadImage('{{ article.img_url | escapejs }}')">Download Image</button>
-                </div>
-            </div>
-            {% endfor %}
+      <h1>News Scraper</h1>
+      <form action="/scrape/" method="post">
+        <label for="date">Enter Date:</label>
+        <input type="date" id="date" name="date" required />
+        <button type="submit">Scrape</button>
+      </form>
+      <div class="articles">
+        {% for article in articles %}
+        <div class="card">
+          <img src="{{ article.img_url }}" alt="Image not available" />
+          <h2>{{ article.header_text }}</h2>
+          <p>{{ article.details_text }}</p>
+          <div class="button-group">
+            <button onclick="copyText('{{ article.header_text | escapejs }}')">
+              Copy Header
+            </button>
+            <button onclick="copyText('{{ article.details_text | escapejs }}')">
+              Copy Description
+            </button>
+            <button onclick="copyText('{{ article.img_url | escapejs }}')">
+              Copy Image URL
+            </button>
+            <button onclick="downloadImage('{{ article.img_url | escapejs }}')">
+              Download Image
+            </button>
+          </div>
         </div>
+        {% endfor %}
+      </div>
     </div>
-    <script>function copyText(text) {
-        const textarea = document.createElement('textarea');
+    <script>
+      function copyText(text) {
+        const textarea = document.createElement("textarea");
         textarea.value = text;
         document.body.appendChild(textarea);
         textarea.select();
-        document.execCommand('copy');
+        document.execCommand("copy");
         document.body.removeChild(textarea);
-        alert('Copied to clipboard!');
-    }
-    
-    function downloadImage(imgUrl) {
-        const link = document.createElement('a');
+        alert("Copied to clipboard!");
+      }
+
+      function downloadImage(imgUrl) {
+        const link = document.createElement("a");
         link.href = imgUrl;
-        link.download = imgUrl.split('/').pop();
+        link.download = imgUrl.split("/").pop();
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    }
-    
-    document.getElementById('scrapeForm').onsubmit = function (event) {
-        event.preventDefault(); // Prevent form from submitting normally
-        var submitBtn = document.getElementById('submitBtn');
-        var stopBtn = document.getElementById('stopBtn');
-        var progressBar = document.getElementById('progressBar');
-        var progressBarFill = document.getElementById('progressBarFill');
-    
-        submitBtn.disabled = true; // Disable the submit button
-        stopBtn.style.display = 'block'; // Show the stop button
-        progressBar.style.display = 'block'; // Show the progress bar
-        progressBarFill.style.width = '50%'; // Example to show progress
-    
-        var formData = new FormData(this);
-        var xhr = new XMLHttpRequest();
-        xhr.open(this.method, this.action, true);
-    
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                submitBtn.disabled = false; // Enable the button
-                stopBtn.style.display = 'none'; // Hide stop button
-                progressBar.style.display = 'none'; // Hide progress bar
-                document.querySelector('.articles').innerHTML = xhr.responseText; // Assuming response is HTML
-            } else {
-                console.error('Error occurred:', xhr.responseText);
-            }
-        };
-    
-        xhr.onerror = function () {
-            console.error('Request failed');
-        };
-    
-        xhr.send(formData);
-    
-        // Handle stop button
-        stopBtn.onclick = function () {
-            xhr.abort(); // Abort the request
-            submitBtn.disabled = false;
-            stopBtn.style.display = 'none';
-            progressBar.style.display = 'none';
-            alert('Scraping stopped by user.');
-        };
-    };
-    </script> 
-</body>
+      }
+    </script>
+  </body>
 </html>
